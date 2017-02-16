@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		div{
+			width:200px;
+			height:200px;
+			border:1px solid #000;
+		}
+		
+	</style>
+	<body>
+		<div></div>
+		<input type="button" value="按钮"/>
+		<input type="button" value="暂停" class="two"/>
+		<script>
+			var input=document.querySelector(("input"));
+			var end=document.querySelector((".two"));
+			
+			var div=document.querySelector("div");
+			input.onclick=function(){
+				var obj=new XMLHttpRequest();
+				obj.onloadend=function(){
+					var stu=obj.responseXML.getElementsByTagName("stu");
+					var str="<table>";
+						str+="<tr><th>"+"name"+"</th><th>"+"age"+"</th><th>"+"sex"+"</th></tr>";
+						for (var i=0;i<stu.length;i++){
+							str+="<tr><td>"+stu[i].getElementsByTagName('name')[0].innerHTML+"</td><td>"+stu[i].getElementsByTagName('age')[0].innerHTML+"</td><td>"+stu[i].getElementsByTagName('sex')[0].innerHTML+"</td></tr>"
+							//这里的stu[i].getElementsByTagName('sex')[0].innerHTML是变量一定不能加''号，如同他下面的例子。
+						}
+						str+="</table>";
+						div.innerHTML=str;
+				}
+				end.onclick=function(){
+					obj.abort()
+				}
+				obj.open("post","1.xml");
+				obj.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+				obj.send("name=zhangsan&age=14")
+			}
+//			var a="sdflsdl";
+//			console.log("a")
+		</script>
+		<form action="" enctype="application/x-www-form-urlencoded"></form>
+	</body>
+</html>
